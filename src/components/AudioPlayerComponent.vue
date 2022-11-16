@@ -4,7 +4,6 @@ import IconPlay from './icons/IconPlay.vue';
 import IconPause from './icons/IconPause.vue';
 import IconNext from './icons/IconNext.vue';
 import IconPrev from './icons/IconPrevious.vue';
-
 export default {
     props: ["song_preview_url"],
     components: { IconPlay, IconPause, IconNext, IconPrev },
@@ -26,38 +25,29 @@ export default {
     },
     methods: {
         playSong(preview) {
-
             this.is_playing      = true;
             this.$refs.audio.src = preview;
             
             this.$refs.audio.play();
-
             // Start interval 
             this.audio_playback = setInterval(() => {
                 this.audio_time   = Math.round(this.$refs.audio.currentTime);
                 this.audio_length = Math.round(this.$refs.audio.duration);
-
                 this.$refs.time.style.width = (this.audio_time * 100) / this.audio_length + '%';
-
                 if (this.audio_time == this.audio_length) {
                     if (player.getNextSong()) {
                         return player.setNowPlaying(player.getNextSong());
                     }
-
                     this.togglePlay();
-
                     this.is_playing = false;
                     this.$refs.time.style.width = 0;
-
                     return player.resetNowPlaying();
                 } 
             }, 10)
         },
         togglePlay() {
             clearInterval(this.audio_playback);
-
             this.is_playing = !this.is_playing;
-
             if (this.is_playing) this.$refs.audio.play();
             else this.$refs.audio.pause();
         }
@@ -236,7 +226,6 @@ export default {
                 opacity   : .4;
                 cursor    : default;
             }
-
         }
         .play {
             background-color: var(--c-primary);
